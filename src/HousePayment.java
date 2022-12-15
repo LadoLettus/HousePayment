@@ -12,6 +12,7 @@ public class HousePayment {
 	public static void main(String[] args) {
 		double monthSalary;
 		int numMonths;
+		int numBills;
 		double monthlyBill[][];
 		double total;
 		double monthlyAverage;
@@ -22,10 +23,12 @@ public class HousePayment {
 		numMonths = validateIn(0, 12, "Number of Months: ");
 		//create an array for each month
 		//num bills for month
-		monthlyBill = arrayBills(numMonths);
+		BillArray bill = new BillArray();
+		monthlyBill = bill.arrayBills(numMonths);
+		numBills = bill.getNumBills();
 		// Output how much money spent
 		System.out.println();
-		printArray(monthlyBill);
+		printArray(monthlyBill, numBills);
 		// Find average money spent a month 
 		System.out.println();
 		total = sum(monthlyBill);
@@ -97,7 +100,7 @@ public static double validateInDouble(double LowerBound, String prompt) {
 			}
 			num = in.nextDouble();
 
-			if (num <= LowerBound)
+			if (num < LowerBound)
 			{
 				System.out.println("Value must be a number greater than " + LowerBound);
 				System.out.println();
@@ -128,7 +131,7 @@ public static double validateInDouble(double LowerBound, String prompt) {
 		for (i = 0; i < arrays.length; i++)
 		{
 			System.out.println("Month " + (i+1) + ": ");
-			numBills = validateIn(0, 1000, "Number of bills this month: ");
+			numBills = validateIn(0, 10, "Number of bills this month: ");
 			// new column
 		  for (j = 0; j < numBills; j++)
 		  {
@@ -145,16 +148,22 @@ public static double validateInDouble(double LowerBound, String prompt) {
 	 * @author Landon Walls 
 	 * @param array, array of values
 	 */
-	public static void printArray(double[][] array)
+	public static void printArray(double[][] array, int numBills)
 	{
+		int num = numBills;
 		for(int i = 0; i < array.length; i++)
 		{
 			System.out.print("Month ");
 			System.out.printf("%d:",(i + 1));
-			for(int j = 0; j < array.length; j++)
+			for(int j = 0; j < num; j++)
 			{
 				double price = array[i][j];
-				System.out.printf("%10.2f", price);
+				if (!(price == 0)) {
+					System.out.printf("%10.2f", price);
+				}
+				else {
+					System.out.printf(" ");
+				}
 			}
 			System.out.println();
 		}
